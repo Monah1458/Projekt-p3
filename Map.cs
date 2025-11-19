@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualBasic.FileIO;
+using Projektp3;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -6,77 +7,117 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace Projektp3
 {
-    class Map
+    public class Map
     {
-        private FunObject[][] map;
-        public void SetMap()
+        public FunObject[,] map;
+        public int x { get; private set; }
+        public int y { get; private set; }
+        public Map()
         {
-            this.map=new FunObject[10][];
-            for (int x = 0; x < map.Length; x++)
+            map=Mapfile.FileMap("TextFile1.txt");
+        }
+        public Map(int x, int y)
+        {
+            this.x = x;
+            this.y = y;
+            map=new FunObject[x,y];
+
+
+            Random rand = new Random(62346);
+            for (int i = 0; i < x; i++)
             {
-                this.map[x]= new FunObject[10];
-                for (int y = 0; y < map[x].Length; y++)
+                for (int j = 0; j <y; j++)
                 {
-                    this.map[x][y]= new FunObject(x, y);
+                    if (rand.Next(0, 100) < 25)
+                    {
+
+                        this.map[i, j]= new Walls(i, j);
+                    }
+                    else
+                        this.map[i, j]= new FunObject(i, j);
+
                 }
             }
-
         }
         public void PrintMap()
         {
 
-            for (int x = 0; x < map.Length; x++)
+            for (int i = 0; i < map.GetLength(0); i++)
             {
-                for (int y = 0; y < map[x].Length; y++)
+                for (int j = 0; j < map.GetLength(1); j++)
                 {
-                    Console.Write(map[x][y].GetChar()+ " ");
+                    Console.Write(map[i, j].GetChar());
                 }
                 Console.WriteLine();
             }
         }
         public void AddToMap<T>(T t) where T : FunObject
         {
-            int g = t.GetX();
-            int b = t.GetY();
-            map[g][b]=t;
+
+            map[t.y, t.x]=t;
         }
         public void MoveLeft<T>(T t) where T : FunObject
         {
-            map[t.GetX()][t.GetY()]=new FunObject(t.GetX(), t.GetY());
-            map[t.GetX()][t.GetY()-1]=t;
+            map[t.y, t.x]=new FunObject(t.x, t.x);
+            map[t.y, t.x-1]=t;
             t.MoveLeft();
         }
 
         public void MoveRight<T>(T t) where T : FunObject
         {
-            map[t.GetX()][t.GetY()]=new FunObject(t.GetX(), t.GetY());
-            map[t.GetX()][t.GetY()+1]=t;
+            map[t.y, t.x]=new FunObject(t.x, t.y);
+            map[t.y, t.x+1]=t;
             t.MoveRight();
         }
         public void MoveUp<T>(T t) where T : FunObject
         {
-            map[t.GetX()][t.GetY()]=new FunObject(t.GetX(), t.GetY());
-            map[t.GetX()-1][t.GetY()]=t;
+            map[t.y, t.x]=new FunObject(t.x, t.y);
+            map[t.y-1, t.x]=t;
             t.MoveUp();
         }
         public void MoveDown<T>(T t) where T : FunObject
         {
-            
-            map[t.GetX()][t.GetY()]=new FunObject(t.GetX(),t.GetY());
-            map[t.GetX()+1][t.GetY()]=t;
+
+            map[t.y,t.x]=new FunObject(t.x, t.y);
+            map[t.y+1, t.x]=t;
             t.MoveDown();
+        }
+        public void MoveTo<T>(T t, FunObject z) where T : FunObject
+        {
+
+            map[t.x, t.y]=new FunObject(t.x, t.y);
+            map[z.x, z.y]=t;
+            t.SetXY(z.x, z.y);
+        }
+        public void MoveTo(int x,int y, FunObject z) 
+        {
+            map[x, y].SetXY(z.x, z.y);
+            map[z.x, z.y]=map[x, y];
+            map[x, y]=new FunObject(x,y);
+            
+      
         }
 
         public void DelObject<T>(T t) where T : FunObject
         {
-            map[t.GetX()][t.GetY()]=new FunObject(t.GetX(), t.GetY());
+            map[t.y, t.x]=new FunObject(t.x, t.y);
+        }
+        public void DelObject(int x, int y)
+        {
+            map[y, x]=new FunObject(x, y);
         }
 
-        public char GetChar(int x,int y) 
+        public char GetChar(int x, int y)
         {
-            return this.map[x][y].GetChar();
+            return this.map[y, x].GetChar();
+            
+        }
+        public char GetID(int x, int y)
+        {
+            return this.map[y, x].ID;
         }
 
 

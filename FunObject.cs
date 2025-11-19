@@ -6,11 +6,15 @@ using System.Threading.Tasks;
 
 namespace Projektp3
 {
-    class FunObject
+    public class FunObject
     {
-        private int x, y;
-        private char def = 'c';
-        
+        public int x { get; set; }
+        public int y { get; set; }
+        public char ID { get; set; }
+        public char def { get; private set; } = ' ';
+        public int cost = 0;
+        public int heuristic = 0;
+        public int total = 0;
         public FunObject(int x, int y)
         {
             this.x = x;
@@ -21,39 +25,43 @@ namespace Projektp3
             this.x = x;
             this.y = y;
         }
-        public int GetX() 
-        { 
-            return this.x;
-        }
-        public int GetY()
+        public char GetChar()
         {
-            return this.y;
-        }
-        public char GetChar() {
             return this.def;
         }
         public void Setchar(char x)
         {
             this.def = x;
         }
-        public void MoveRight() {
-            this.y++;
-        }
-        public void MoveLeft()
-        {
-            this.y--;
-        }
-        public void MoveUp()
-        {
-            this.x--;
-        }
-        public void MoveDown()
+        public void MoveRight()
         {
             this.x++;
         }
+        public void MoveLeft()
+        {
+            this.x--;
+        }
+        public void MoveUp()
+        {
+            this.y--;
+        }
+        public void MoveDown()
+        {
+            this.y++;
+        }
+        public override bool Equals(object obj)
+        {
+            if (obj is FunObject f)
+                return f.x == this.x && f.y == this.y;
+
+            return false;
+        }
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
 
     }
-
 
 
 }
