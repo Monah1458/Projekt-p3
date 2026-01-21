@@ -8,6 +8,8 @@ namespace Projektp3
 {
     public class FunObject
     {
+        public int k=0;
+        public int p=0;
         public int x { get; set; }
         public int y { get; set; }
         public char ID { get; set; }
@@ -19,6 +21,7 @@ namespace Projektp3
         {
             this.x = x;
             this.y = y;
+            this.ID='C';
         }
         public void SetXY(int x, int y)
         {

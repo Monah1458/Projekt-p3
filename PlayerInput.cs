@@ -10,35 +10,30 @@ namespace Projektp3
     static class PlayerInput
     {
 
-        static public void KeyPlayerInput(Map map,Player p1) 
+        static public void KeyPlayerInput(Map map) 
         {
             ConsoleKeyInfo keyInfo = Console.ReadKey();
-            ConsoleKey key = keyInfo.Key;
+            ConsoleKey key = keyInfo.Key;            
             switch (key)
             {
-                case ConsoleKey.W:
-                    if (map.GetID(p1.x,p1.y-1)!='W')
-                    {
-                        map.MoveUp(p1);
-                    }
-                    break;
                 case ConsoleKey.A:
-                    if (map.GetID(p1.x-1, p1.y)!='W')
-                    {
-                        map.MoveLeft(p1);
-                    }
+                    MapAction.PlayerMove(map, map.player.x, map.player.y-1, "Left");
                     break;
-                case ConsoleKey.S:
-                    if (map.GetID(p1.x, p1.y+1)!='W')
-                    {
-                        map.MoveDown(p1);
-                    }
+
+                case ConsoleKey.W:
+                    MapAction.PlayerMove(map, map.player.x-1, map.player.y, "Up");
                     break;
                 case ConsoleKey.D:
-                    if (map.GetID(p1.x+1, p1.y)!='W')
-                    {
-                        map.MoveRight(p1);
-                    }
+                    MapAction.PlayerMove(map, map.player.x, map.player.y+1, "Right");
+                    break;
+                case ConsoleKey.S:
+                    MapAction.PlayerMove(map, map.player.x+1, map.player.y, "Down");
+                    break;
+                case ConsoleKey.T:
+                    MapAction.SetDistr(map);
+                    break;
+                case ConsoleKey.U:
+                    MapAction.TriggerDistr(map);
                     break;
                 default:
                     break;

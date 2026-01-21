@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Projektp3
 {
-    class Player : FunObject
+    public class Player : FunObject
     {
         public Player(int x, int y) : base(x, y)
         {

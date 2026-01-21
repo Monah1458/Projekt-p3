@@ -36,12 +36,14 @@ namespace Projektp3
                 }
             }
             bool canSearch = true;
-            if (map[startTile.x, startTile.y].GetChar() == 'W')
+            if (map[startTile.x, startTile.y].ID == 'W')
             {
+
+                Console.WriteLine(startTile.x+"=x y= "+startTile.y+" "+map[startTile.x, startTile.y].ID);
                 Console.WriteLine("The start tile is non walkable. Choose a different value than: " + startTile.ToString());
                 canSearch = false;
             }
-            if (map[endTile.x, endTile.y].GetChar() == 'W')
+            if (map[endTile.x, endTile.y].ID == 'W')
             {
                 Console.WriteLine("The end tile is non walkable. Choose a different value than: " + endTile.ToString());
                 canSearch = false;
@@ -135,19 +137,19 @@ namespace Projektp3
             FunObject adjacentTile;
 
             adjacentTile = new FunObject(currentTile.x, currentTile.y + 1);
-            if (adjacentTile.y < map.GetLength(1) && map[adjacentTile.x, adjacentTile.y].GetChar() != 'W')
+            if (adjacentTile.y < map.GetLength(1) && map[adjacentTile.x, adjacentTile.y].ID != 'W')
                 adjacentTiles.Add(adjacentTile);
 
             adjacentTile = new FunObject(currentTile.x, currentTile.y - 1);
-            if (adjacentTile.y >= 0 && map[adjacentTile.x, adjacentTile.y].GetChar() != 'W')
+            if (adjacentTile.y >= 0 && map[adjacentTile.x, adjacentTile.y].ID != 'W')
                 adjacentTiles.Add(adjacentTile);
 
             adjacentTile = new FunObject(currentTile.x + 1, currentTile.y);
-            if (adjacentTile.x < map.GetLength(0) && map[adjacentTile.x, adjacentTile.y].GetChar() != 'W')
+            if (adjacentTile.x < map.GetLength(0) && map[adjacentTile.x, adjacentTile.y].ID != 'W')
                 adjacentTiles.Add(adjacentTile);
 
             adjacentTile = new FunObject(currentTile.x - 1, currentTile.y);
-            if (adjacentTile.x >= 0 && map[adjacentTile.x, adjacentTile.y].GetChar() != 'W')
+            if (adjacentTile.x >= 0 && map[adjacentTile.x, adjacentTile.y].ID != 'W')
                 adjacentTiles.Add(adjacentTile);
 
             return adjacentTiles;

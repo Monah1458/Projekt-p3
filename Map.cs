@@ -13,11 +13,19 @@ namespace Projektp3
     public class Map
     {
         public FunObject[,] map;
+        public List<Enemy> listEnemies = new List<Enemy>();
+        public List<FunObject> listABombs = new List<FunObject>();
+        public List<MovingWalls> listMovingWalls = new List<MovingWalls>();
+        public Player player {  get; set; }
         public int x { get; private set; }
         public int y { get; private set; }
         public Map()
         {
             map=Mapfile.FileMap("TextFile1.txt");
+            listEnemies=Mapfile.EnemiesList();
+            player=Mapfile.Player();
+           
+
         }
         public Map(int x, int y)
         {
@@ -87,18 +95,27 @@ namespace Projektp3
         }
         public void MoveTo<T>(T t, FunObject z) where T : FunObject
         {
-
-            map[t.x, t.y]=new FunObject(t.x, t.y);
-            map[z.x, z.y]=t;
+            var temp = map[z.x, z.y];
+            map[z.x, z.y] = t;
+            map[t.x, t.y] = temp;
             t.SetXY(z.x, z.y);
+            temp.SetXY(t.x, t.y);
         }
         public void MoveTo(int x,int y, FunObject z) 
         {
-            map[x, y].SetXY(z.x, z.y);
-            map[z.x, z.y]=map[x, y];
-            map[x, y]=new FunObject(x,y);
+            (map[x, y], map[z.x,z.y]) = (map[z.x, z.y], map[x, y]);
+            map[x, y].SetXY(x, y);
+            map[z.x, z.y].SetXY(z.x, z.y);
+        }
+        public void MoveTo(int x, int y, int sx, int sy)
+        {
+            var tmp = map[sx, sy];       
+            map[sx, sy]=map[x,y];
+            map[x, y]=tmp;
+            map[x, y].SetXY(x, y);
+            map[sx, sy].SetXY(sx, sy);
             
-      
+
         }
 
         public void DelObject<T>(T t) where T : FunObject
